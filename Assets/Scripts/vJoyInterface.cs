@@ -54,6 +54,7 @@ namespace EVRC
         private VirtualJoystick.StickAxis stickAxis = VirtualJoystick.StickAxis.Zero;
         private Virtual6DOFController.ThrusterAxis thrusterAxis = Virtual6DOFController.ThrusterAxis.Zero;
         private float throttle = 0f;
+        public bool throttleReverseLock { get; private set; } = true;
         private float sensorZoom = 0f;
         private Vector3 mapTranslationAxis = Vector3.zero;
         private float mapPitchAxis = 0;
@@ -124,12 +125,12 @@ namespace EVRC
                 return;
             }
 
-            if(!AcquireDevice(deviceId, deviceStatus) || !AcquireDevice(secondaryDeviceId, secondaryDeviceStatus))
+            if (!AcquireDevice(deviceId, deviceStatus) || !AcquireDevice(secondaryDeviceId, secondaryDeviceStatus))
             {
                 enabled = false;
                 return;
             }
-            
+
             SetStatus(VJoyStatus.Ready);
         }
 
@@ -190,6 +191,7 @@ namespace EVRC
             if (vJoyStatus == VJoyStatus.Ready)
             {
                 vjoy.RelinquishVJD(deviceId);
+                vjoy.RelinquishVJD(secondaryDeviceId);
                 SetStatus(VJoyStatus.Unknown);
             }
         }
@@ -304,7 +306,26 @@ namespace EVRC
          */
         public void SetThrottle(float throttle)
         {
-            this.throttle = throttle;
+            if (throttleReverseLock && throttle > this.throttle)
+            {
+                this.throttle = throttle;
+            }
+        }
+
+        /**
+         * Enable the reverse lock on the Throttle
+         */
+        public void EnableReverseLock()
+        {
+            throttleReverseLock = true;
+        }
+
+        /**
+         * Disable the reverse lock on the Throttle
+         */
+        public void DisableReverseLock()
+        {
+            throttleReverseLock = false;
         }
 
         /**
