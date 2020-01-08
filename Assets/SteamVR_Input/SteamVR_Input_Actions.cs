@@ -101,6 +101,16 @@ namespace Valve.VR
         
         private static SteamVR_Action_Vector2 p_cockpitControls_POV2TrackpadPosition;
         
+        private static SteamVR_Action_Boolean p_cockpitControls_StickNorth;
+        
+        private static SteamVR_Action_Boolean p_cockpitControls_StickEast;
+        
+        private static SteamVR_Action_Boolean p_cockpitControls_StickSouth;
+        
+        private static SteamVR_Action_Boolean p_cockpitControls_StickWest;
+        
+        private static SteamVR_Action_Boolean p_cockpitControls_StickPress;
+        
         public static SteamVR_Action_Boolean default_InteractUI
         {
             get
@@ -437,6 +447,46 @@ namespace Valve.VR
             }
         }
         
+        public static SteamVR_Action_Boolean cockpitControls_StickNorth
+        {
+            get
+            {
+                return SteamVR_Actions.p_cockpitControls_StickNorth.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean cockpitControls_StickEast
+        {
+            get
+            {
+                return SteamVR_Actions.p_cockpitControls_StickEast.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean cockpitControls_StickSouth
+        {
+            get
+            {
+                return SteamVR_Actions.p_cockpitControls_StickSouth.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean cockpitControls_StickWest
+        {
+            get
+            {
+                return SteamVR_Actions.p_cockpitControls_StickWest.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean cockpitControls_StickPress
+        {
+            get
+            {
+                return SteamVR_Actions.p_cockpitControls_StickPress.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
         private static void InitializeActionArrays()
         {
             Valve.VR.SteamVR_Input.actions = new Valve.VR.SteamVR_Action[] {
@@ -481,7 +531,12 @@ namespace Valve.VR
                     SteamVR_Actions.cockpitControls_POV1TrackpadPosition,
                     SteamVR_Actions.cockpitControls_POV2TrackpadPress,
                     SteamVR_Actions.cockpitControls_POV2TrackpadTouch,
-                    SteamVR_Actions.cockpitControls_POV2TrackpadPosition};
+                    SteamVR_Actions.cockpitControls_POV2TrackpadPosition,
+                    SteamVR_Actions.cockpitControls_StickNorth,
+                    SteamVR_Actions.cockpitControls_StickEast,
+                    SteamVR_Actions.cockpitControls_StickSouth,
+                    SteamVR_Actions.cockpitControls_StickWest,
+                    SteamVR_Actions.cockpitControls_StickPress};
             Valve.VR.SteamVR_Input.actionsIn = new Valve.VR.ISteamVR_Action_In[] {
                     SteamVR_Actions.default_InteractUI,
                     SteamVR_Actions.default_GrabToggle,
@@ -523,7 +578,12 @@ namespace Valve.VR
                     SteamVR_Actions.cockpitControls_POV1TrackpadPosition,
                     SteamVR_Actions.cockpitControls_POV2TrackpadPress,
                     SteamVR_Actions.cockpitControls_POV2TrackpadTouch,
-                    SteamVR_Actions.cockpitControls_POV2TrackpadPosition};
+                    SteamVR_Actions.cockpitControls_POV2TrackpadPosition,
+                    SteamVR_Actions.cockpitControls_StickNorth,
+                    SteamVR_Actions.cockpitControls_StickEast,
+                    SteamVR_Actions.cockpitControls_StickSouth,
+                    SteamVR_Actions.cockpitControls_StickWest,
+                    SteamVR_Actions.cockpitControls_StickPress};
             Valve.VR.SteamVR_Input.actionsOut = new Valve.VR.ISteamVR_Action_Out[] {
                     SteamVR_Actions.default_Haptic};
             Valve.VR.SteamVR_Input.actionsVibration = new Valve.VR.SteamVR_Action_Vibration[] {
@@ -565,7 +625,12 @@ namespace Valve.VR
                     SteamVR_Actions.cockpitControls_POV1TrackpadTouch,
                     SteamVR_Actions.cockpitControls_ButtonPOV2,
                     SteamVR_Actions.cockpitControls_POV2TrackpadPress,
-                    SteamVR_Actions.cockpitControls_POV2TrackpadTouch};
+                    SteamVR_Actions.cockpitControls_POV2TrackpadTouch,
+                    SteamVR_Actions.cockpitControls_StickNorth,
+                    SteamVR_Actions.cockpitControls_StickEast,
+                    SteamVR_Actions.cockpitControls_StickSouth,
+                    SteamVR_Actions.cockpitControls_StickWest,
+                    SteamVR_Actions.cockpitControls_StickPress};
             Valve.VR.SteamVR_Input.actionsSingle = new Valve.VR.SteamVR_Action_Single[0];
             Valve.VR.SteamVR_Input.actionsVector2 = new Valve.VR.SteamVR_Action_Vector2[] {
                     SteamVR_Actions.menu_MenuNavigateTrackpadPosition,
@@ -615,7 +680,12 @@ namespace Valve.VR
                     SteamVR_Actions.cockpitControls_POV1TrackpadPosition,
                     SteamVR_Actions.cockpitControls_POV2TrackpadPress,
                     SteamVR_Actions.cockpitControls_POV2TrackpadTouch,
-                    SteamVR_Actions.cockpitControls_POV2TrackpadPosition};
+                    SteamVR_Actions.cockpitControls_POV2TrackpadPosition,
+                    SteamVR_Actions.cockpitControls_StickNorth,
+                    SteamVR_Actions.cockpitControls_StickEast,
+                    SteamVR_Actions.cockpitControls_StickSouth,
+                    SteamVR_Actions.cockpitControls_StickWest,
+                    SteamVR_Actions.cockpitControls_StickPress};
         }
         
         private static void PreInitActions()
@@ -662,6 +732,11 @@ namespace Valve.VR
             SteamVR_Actions.p_cockpitControls_POV2TrackpadPress = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/CockpitControls/in/POV2TrackpadPress")));
             SteamVR_Actions.p_cockpitControls_POV2TrackpadTouch = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/CockpitControls/in/POV2TrackpadTouch")));
             SteamVR_Actions.p_cockpitControls_POV2TrackpadPosition = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/CockpitControls/in/POV2TrackpadPosition")));
+            SteamVR_Actions.p_cockpitControls_StickNorth = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/CockpitControls/in/StickNorth")));
+            SteamVR_Actions.p_cockpitControls_StickEast = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/CockpitControls/in/StickEast")));
+            SteamVR_Actions.p_cockpitControls_StickSouth = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/CockpitControls/in/StickSouth")));
+            SteamVR_Actions.p_cockpitControls_StickWest = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/CockpitControls/in/StickWest")));
+            SteamVR_Actions.p_cockpitControls_StickPress = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/CockpitControls/in/StickPress")));
         }
     }
 }

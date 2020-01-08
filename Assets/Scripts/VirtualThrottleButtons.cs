@@ -3,7 +3,12 @@
 namespace EVRC
 {
     using ActionChange = ActionsController.ActionChange;
+    using DirectionActionChange = ActionsController.DirectionActionChange;
     using OutputAction = ActionsController.OutputAction;
+    using ActionChangeUnpressHandler = PressManager.UnpressHandlerDelegate<ActionsController.ActionChange>;
+    using DirectionActionChangeUnpressHandler = PressManager.UnpressHandlerDelegate<ActionsController.DirectionActionChange>;
+    using Direction = ActionsController.Direction;
+    using HatDirection = vJoyInterface.HatDirection;
 
     /**
      * Outputs joystick buttons to vJoy when the associated throttle is grabbed
@@ -13,8 +18,20 @@ namespace EVRC
         // Map of abstracted action presses to vJoy joystick button numbers
         private static Dictionary<OutputAction, uint> joyBtnMap = new Dictionary<OutputAction, uint>()
         {
-            { OutputAction.ButtonPrimary, 8 },
-            { OutputAction.ButtonSecondary, 7 },
+            { OutputAction.ButtonPrimary, 7 },
+            { OutputAction.ButtonSecondary, 8 },
+            { OutputAction.Stick, 9 },
+        };
+        private static Dictionary<OutputAction, uint> joyHatMap = new Dictionary<OutputAction, uint>()
+        {
+            { OutputAction.Stick, 4 },
+        };
+        private static Dictionary<Direction, HatDirection> directionMap = new Dictionary<Direction, HatDirection>()
+        {
+            { Direction.Up, HatDirection.Up },
+            { Direction.Right, HatDirection.Right },
+            { Direction.Down, HatDirection.Down },
+            { Direction.Left, HatDirection.Left },
         };
 
         private ActionsControllerPressManager actionsPressManager;
@@ -25,7 +42,8 @@ namespace EVRC
             actionsPressManager = new ActionsControllerPressManager(this)
                 .ButtonPrimary(OnAction)
                 .ButtonSecondary(OnAction)
-                .ButtonAlt(OnAction);
+                .ButtonStick(OnAction)
+                .DirectionStick(OnDirectionAction);
         }
 
         override protected void OnDisable()
@@ -34,7 +52,7 @@ namespace EVRC
             actionsPressManager.Clear();
         }
 
-        private PressManager.UnpressHandlerDelegate<ActionChange> OnAction(ActionChange pEv)
+        private ActionChangeUnpressHandler OnAction(ActionChange pEv)
         {
             if (IsValidHand(pEv.hand))
             {
@@ -53,6 +71,19 @@ namespace EVRC
 
                     return (uEv) => { UnpressReverseLock(); };
                 }
+            }
+
+            return (uEv) => { };
+        }
+
+        private DirectionActionChangeUnpressHandler OnDirectionAction(DirectionActionChange pEv)
+        {
+            if (IsValidHand(pEv.hand) && joyHatMap.ContainsKey(pEv.action))
+            {
+                uint hatNumber = joyHatMap[pEv.action];
+                SetHatDirection(hatNumber, directionMap[pEv.direction]);
+
+                return (uEv) => { ReleaseHatDirection(hatNumber); };
             }
 
             return (uEv) => { };
