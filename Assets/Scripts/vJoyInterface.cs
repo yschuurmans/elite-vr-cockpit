@@ -54,7 +54,7 @@ namespace EVRC
         private VirtualJoystick.StickAxis stickAxis = VirtualJoystick.StickAxis.Zero;
         private Virtual6DOFController.ThrusterAxis thrusterAxis = Virtual6DOFController.ThrusterAxis.Zero;
         private float throttle = 0f;
-        public bool throttleReverseLock { get; private set; } = true;
+        public bool throttleReverseLockPressed { get; private set; } = false;
         private float sensorZoom = 0f;
         private Vector3 mapTranslationAxis = Vector3.zero;
         private float mapPitchAxis = 0;
@@ -306,7 +306,12 @@ namespace EVRC
          */
         public void SetThrottle(float throttle)
         {
-            if (throttleReverseLock && throttle > this.throttle)
+            if (throttle >= 0)
+            {
+                this.throttle = throttle;
+                return;
+            }
+            else if (throttleReverseLockPressed || throttle > this.throttle)
             {
                 this.throttle = throttle;
             }
@@ -317,7 +322,7 @@ namespace EVRC
          */
         public void EnableReverseLock()
         {
-            throttleReverseLock = true;
+            throttleReverseLockPressed = true;
         }
 
         /**
@@ -325,7 +330,7 @@ namespace EVRC
          */
         public void DisableReverseLock()
         {
-            throttleReverseLock = false;
+            throttleReverseLockPressed = false;
         }
 
         /**
