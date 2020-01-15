@@ -73,7 +73,7 @@ namespace EVRC
             if (output && !pressedReverseLock)
             {
                 pressedReverseLock = true;
-                output.EnableReverseLock();
+                output.EnableReverse();
             }
         }
 
@@ -82,7 +82,7 @@ namespace EVRC
             if (output && pressedReverseLock)
             {
                 pressedReverseLock = false;
-                output.DisableReverseLock();
+                output.DisableReverse();
             }
         }
 
