@@ -88,5 +88,21 @@ namespace Valve.VR
                 return SteamVR_Actions.menu_MenuNavigateTrackpadPosition;
             }
         }
+        
+        public virtual SteamVR_Action_Boolean MenuNestedToggle
+        {
+            get
+            {
+                return SteamVR_Actions.menu_MenuNestedToggle;
+            }
+        }
+        
+        public virtual SteamVR_Action_Vector2 MenuNavigateJoystickPosition
+        {
+            get
+            {
+                return SteamVR_Actions.menu_MenuNavigateJoystickPosition;
+            }
+        }
     }
 }

@@ -24,8 +24,7 @@ namespace EVRC
             base.OnEnable();
             actionsPressManager = new ActionsControllerPressManager(this)
                 .ButtonPrimary(OnAction)
-                .ButtonSecondary(OnAction)
-                .ButtonAlt(OnAction);
+                .ButtonSecondary(OnAction);
         }
 
         override protected void OnDisable()

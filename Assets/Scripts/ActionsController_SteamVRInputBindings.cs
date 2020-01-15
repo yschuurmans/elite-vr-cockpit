@@ -9,6 +9,7 @@ namespace EVRC
     using InputAction = ActionsController.InputAction;
     using BindingMode = InputBindingNameInfoManager.BindingMode;
     using NameType = InputBindingNameInfoManager.NameType;
+    using TrackpadInterval = ActionsController.TrackpadInterval;
 
     /**
      * Behaviour that maps SteamVR Input API action events to ActionController actions.
@@ -26,6 +27,7 @@ namespace EVRC
         private Dictionary<(InputAction, Hand), Action> trackpadSlideActiveCleanups = new Dictionary<(InputAction, Hand), Action>();
         private Dictionary<SteamVR_Action_Boolean, InputAction> trackpadPressActionMap = new Dictionary<SteamVR_Action_Boolean, InputAction>();
         private Dictionary<SteamVR_Action_Boolean, SteamVR_Action_Vector2> trackpadPressPositionMap = new Dictionary<SteamVR_Action_Boolean, SteamVR_Action_Vector2>();
+        private Dictionary<SteamVR_Action_Vector2, InputAction> joystickActionMap = new Dictionary<SteamVR_Action_Vector2, InputAction>();
 
         private InputBindingNameInfoManager inputBindingNameInfo = new InputBindingNameInfoManager();
 
@@ -163,6 +165,28 @@ namespace EVRC
             });
         }
 
+        /**
+         * Add a SteamVR Input listener for a josystick position actions we want events for from each hand individually
+         */
+        void AddHandedJoystickChangeListener(SteamVR_Action_Vector2 positionAction, InputAction inputAction)
+        {
+            joystickActionMap[positionAction] = inputAction;
+            positionAction.AddOnChangeListener(OnJoystickPositionChange, SteamVR_Input_Sources.LeftHand);
+            positionAction.AddOnChangeListener(OnJoystickPositionChange, SteamVR_Input_Sources.RightHand);
+
+            var Deregister = inputBindingNameInfo.RegisterBinding(inputAction, BindingMode.Joystick, positionAction, new SteamVR_Input_Sources[] {
+                SteamVR_Input_Sources.LeftHand,
+                SteamVR_Input_Sources.RightHand,
+            });
+
+            changeListenerCleanupActions.Add(() =>
+            {
+                positionAction.RemoveOnChangeListener(OnJoystickPositionChange, SteamVR_Input_Sources.LeftHand);
+                positionAction.RemoveOnChangeListener(OnJoystickPositionChange, SteamVR_Input_Sources.RightHand);
+                Deregister();
+            });
+        }
+
         void OnEnable()
         {
             // Activate all action sets
@@ -197,6 +221,7 @@ namespace EVRC
             // Menu/UI buttons
             AddHandedBooleanChangeListener(SteamVR_Actions.menu_MenuBack, InputAction.MenuBack);
             AddHandedBooleanChangeListener(SteamVR_Actions.menu_MenuSelect, InputAction.MenuSelect);
+            AddHandedBooleanChangeListener(SteamVR_Actions.menu_MenuNestedToggle, InputAction.MenuNestedToggle);
             AddHandedBooleanChangeListener(SteamVR_Actions.menu_MenuNavigateUp, InputAction.MenuNavigateUp);
             AddHandedBooleanChangeListener(SteamVR_Actions.menu_MenuNavigateDown, InputAction.MenuNavigateDown);
             AddHandedBooleanChangeListener(SteamVR_Actions.menu_MenuNavigateLeft, InputAction.MenuNavigateLeft);
@@ -227,6 +252,13 @@ namespace EVRC
                 SteamVR_Actions.cockpitControls_POV2TrackpadPress,
                 SteamVR_Actions.cockpitControls_POV2TrackpadPosition,
                 InputAction.POV2Trackpad);
+            // POV Joystick
+            AddHandedJoystickChangeListener(
+                SteamVR_Actions.cockpitControls_POV1JoystickPosition,
+                InputAction.POV1Joystick);
+            AddHandedJoystickChangeListener(
+                SteamVR_Actions.cockpitControls_POV2JoystickPosition,
+                InputAction.POV2Joystick);
             // Menu Navigate Trackpad
             AddHandedTrackpadSlideChangeListener(
                 SteamVR_Actions.menu_MenuNavigateTrackpadTouch,
@@ -236,6 +268,10 @@ namespace EVRC
                 SteamVR_Actions.menu_MenuNavigateTrackpadPress,
                 SteamVR_Actions.menu_MenuNavigateTrackpadPosition,
                 InputAction.MenuNavigateTrackpad);
+            // Menu Navigate Joystick
+            AddHandedJoystickChangeListener(
+                SteamVR_Actions.menu_MenuNavigateJoystickPosition,
+                InputAction.MenuNavigateJoystick);
             // UI Navigate Trackpad
             AddHandedTrackpadSlideChangeListener(
                 SteamVR_Actions.uI_UINavigateTrackpadTouch,
@@ -245,7 +281,11 @@ namespace EVRC
                 SteamVR_Actions.uI_UINavigateTrackpadPress,
                 SteamVR_Actions.uI_UINavigateTrackpadPosition,
                 InputAction.UINavigateTrackpad);
-            // UI Tab
+            // UI Navigate Joystick
+            AddHandedJoystickChangeListener(
+                SteamVR_Actions.uI_UINavigateJoystickPosition,
+                InputAction.UINavigateJoystick);
+            // UI Tab Trackpad
             AddHandedTrackpadSlideChangeListener(
                 SteamVR_Actions.uI_UITabTrackpadTouch,
                 SteamVR_Actions.uI_UITabTrackpadPosition,
@@ -254,6 +294,10 @@ namespace EVRC
                 SteamVR_Actions.uI_UITabTrackpadPress,
                 SteamVR_Actions.uI_UITabTrackpadPosition,
                 InputAction.UITabTrackpad);
+            // UI Tab Joystick
+            AddHandedJoystickChangeListener(
+                SteamVR_Actions.uI_UITabJoystickPosition,
+                InputAction.UITabJoystick);
 
             Debug.Log("SteamVR Input bindings <b>enabled</b>");
         }
@@ -372,7 +416,7 @@ namespace EVRC
          * Return a relative scale size for different trackpads
          * This adjusts the swipe sensitivity to handle trackpads of different physical sizes
          */
-        public float GetTrackpadSwipeInterval(Hand hand)
+        public TrackpadInterval GetTrackpadSwipeInterval(Hand hand)
         {
             uint deviceIndex = SteamVR_Actions.default_Pose.GetDeviceIndex(GetInputSourceForHand(hand));
             string controllerType = "";
@@ -386,12 +430,31 @@ namespace EVRC
                 case "vive_controller":
                     // The Vive trackpad can comfortably fit about 8 intervals end to end
                     // (Though you can only really get 7)
-                    return 0.25f;
+                    return TrackpadInterval.Circular(0.25f);
+                case "knuckles":
+                    // The Index controllers can comfortably fit a similar armount to the Vive vertically
+                    // However the horizontal swipes feel better at about half because of the oval shape
+                    return TrackpadInterval.Oval(horizontal: 0.50f, vertical: 0.25f);
                 default:
-                    // For safety assume trackpads on unknown controllers are small and give them a sensibly low sensitivity
-                    return 0;
+                    // For safety assume trackpads on unknown controllers are small and fallback to a default with a sensibly low sensitivity
+                    return TrackpadInterval.Default;
             }
         }
+
+        public void OnJoystickPositionChange(SteamVR_Action_Vector2 fromAction, SteamVR_Input_Sources fromSource, Vector2 axis, Vector2 delta)
+        {
+            if (joystickActionMap.ContainsKey(fromAction))
+            {
+                var inputAction = joystickActionMap[fromAction];
+                var hand = GetHandForInputSource(fromSource);
+                actionsController.TriggerJoystickAxisChangeAction(inputAction, hand, axis);
+            }
+            else
+            {
+                Debug.LogWarningFormat("Unknown SteamVR Input action source: {0}", fromAction.fullPath);
+            }
+        }
+
 
         public string[] GetBindingNames(InputAction inputAction, NameType nameType)
         {

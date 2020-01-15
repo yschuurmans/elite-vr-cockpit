@@ -51,6 +51,10 @@ namespace Valve.VR
         
         private static SteamVR_Action_Vector2 p_menu_MenuNavigateTrackpadPosition;
         
+        private static SteamVR_Action_Boolean p_menu_MenuNestedToggle;
+        
+        private static SteamVR_Action_Vector2 p_menu_MenuNavigateJoystickPosition;
+        
         private static SteamVR_Action_Boolean p_uI_UIBack;
         
         private static SteamVR_Action_Boolean p_uI_UISelect;
@@ -79,6 +83,10 @@ namespace Valve.VR
         
         private static SteamVR_Action_Vector2 p_uI_UITabTrackpadPosition;
         
+        private static SteamVR_Action_Vector2 p_uI_UINavigateJoystickPosition;
+        
+        private static SteamVR_Action_Vector2 p_uI_UITabJoystickPosition;
+        
         private static SteamVR_Action_Boolean p_cockpitControls_ButtonPrimary;
         
         private static SteamVR_Action_Boolean p_cockpitControls_ButtonSecondary;
@@ -100,6 +108,10 @@ namespace Valve.VR
         private static SteamVR_Action_Boolean p_cockpitControls_POV2TrackpadTouch;
         
         private static SteamVR_Action_Vector2 p_cockpitControls_POV2TrackpadPosition;
+        
+        private static SteamVR_Action_Vector2 p_cockpitControls_POV1JoystickPosition;
+        
+        private static SteamVR_Action_Vector2 p_cockpitControls_POV2JoystickPosition;
         
         public static SteamVR_Action_Boolean default_InteractUI
         {
@@ -237,6 +249,22 @@ namespace Valve.VR
             }
         }
         
+        public static SteamVR_Action_Boolean menu_MenuNestedToggle
+        {
+            get
+            {
+                return SteamVR_Actions.p_menu_MenuNestedToggle.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Vector2 menu_MenuNavigateJoystickPosition
+        {
+            get
+            {
+                return SteamVR_Actions.p_menu_MenuNavigateJoystickPosition.GetCopy<SteamVR_Action_Vector2>();
+            }
+        }
+        
         public static SteamVR_Action_Boolean uI_UIBack
         {
             get
@@ -349,6 +377,22 @@ namespace Valve.VR
             }
         }
         
+        public static SteamVR_Action_Vector2 uI_UINavigateJoystickPosition
+        {
+            get
+            {
+                return SteamVR_Actions.p_uI_UINavigateJoystickPosition.GetCopy<SteamVR_Action_Vector2>();
+            }
+        }
+        
+        public static SteamVR_Action_Vector2 uI_UITabJoystickPosition
+        {
+            get
+            {
+                return SteamVR_Actions.p_uI_UITabJoystickPosition.GetCopy<SteamVR_Action_Vector2>();
+            }
+        }
+        
         public static SteamVR_Action_Boolean cockpitControls_ButtonPrimary
         {
             get
@@ -437,6 +481,22 @@ namespace Valve.VR
             }
         }
         
+        public static SteamVR_Action_Vector2 cockpitControls_POV1JoystickPosition
+        {
+            get
+            {
+                return SteamVR_Actions.p_cockpitControls_POV1JoystickPosition.GetCopy<SteamVR_Action_Vector2>();
+            }
+        }
+        
+        public static SteamVR_Action_Vector2 cockpitControls_POV2JoystickPosition
+        {
+            get
+            {
+                return SteamVR_Actions.p_cockpitControls_POV2JoystickPosition.GetCopy<SteamVR_Action_Vector2>();
+            }
+        }
+        
         private static void InitializeActionArrays()
         {
             Valve.VR.SteamVR_Input.actions = new Valve.VR.SteamVR_Action[] {
@@ -457,6 +517,8 @@ namespace Valve.VR
                     SteamVR_Actions.menu_MenuNavigateTrackpadPress,
                     SteamVR_Actions.menu_MenuNavigateTrackpadTouch,
                     SteamVR_Actions.menu_MenuNavigateTrackpadPosition,
+                    SteamVR_Actions.menu_MenuNestedToggle,
+                    SteamVR_Actions.menu_MenuNavigateJoystickPosition,
                     SteamVR_Actions.uI_UIBack,
                     SteamVR_Actions.uI_UISelect,
                     SteamVR_Actions.uI_UINavigateUp,
@@ -471,6 +533,8 @@ namespace Valve.VR
                     SteamVR_Actions.uI_UITabTrackpadPress,
                     SteamVR_Actions.uI_UITabTrackpadTouch,
                     SteamVR_Actions.uI_UITabTrackpadPosition,
+                    SteamVR_Actions.uI_UINavigateJoystickPosition,
+                    SteamVR_Actions.uI_UITabJoystickPosition,
                     SteamVR_Actions.cockpitControls_ButtonPrimary,
                     SteamVR_Actions.cockpitControls_ButtonSecondary,
                     SteamVR_Actions.cockpitControls_ButtonAlt,
@@ -481,7 +545,9 @@ namespace Valve.VR
                     SteamVR_Actions.cockpitControls_POV1TrackpadPosition,
                     SteamVR_Actions.cockpitControls_POV2TrackpadPress,
                     SteamVR_Actions.cockpitControls_POV2TrackpadTouch,
-                    SteamVR_Actions.cockpitControls_POV2TrackpadPosition};
+                    SteamVR_Actions.cockpitControls_POV2TrackpadPosition,
+                    SteamVR_Actions.cockpitControls_POV1JoystickPosition,
+                    SteamVR_Actions.cockpitControls_POV2JoystickPosition};
             Valve.VR.SteamVR_Input.actionsIn = new Valve.VR.ISteamVR_Action_In[] {
                     SteamVR_Actions.default_InteractUI,
                     SteamVR_Actions.default_GrabToggle,
@@ -499,6 +565,8 @@ namespace Valve.VR
                     SteamVR_Actions.menu_MenuNavigateTrackpadPress,
                     SteamVR_Actions.menu_MenuNavigateTrackpadTouch,
                     SteamVR_Actions.menu_MenuNavigateTrackpadPosition,
+                    SteamVR_Actions.menu_MenuNestedToggle,
+                    SteamVR_Actions.menu_MenuNavigateJoystickPosition,
                     SteamVR_Actions.uI_UIBack,
                     SteamVR_Actions.uI_UISelect,
                     SteamVR_Actions.uI_UINavigateUp,
@@ -513,6 +581,8 @@ namespace Valve.VR
                     SteamVR_Actions.uI_UITabTrackpadPress,
                     SteamVR_Actions.uI_UITabTrackpadTouch,
                     SteamVR_Actions.uI_UITabTrackpadPosition,
+                    SteamVR_Actions.uI_UINavigateJoystickPosition,
+                    SteamVR_Actions.uI_UITabJoystickPosition,
                     SteamVR_Actions.cockpitControls_ButtonPrimary,
                     SteamVR_Actions.cockpitControls_ButtonSecondary,
                     SteamVR_Actions.cockpitControls_ButtonAlt,
@@ -523,7 +593,9 @@ namespace Valve.VR
                     SteamVR_Actions.cockpitControls_POV1TrackpadPosition,
                     SteamVR_Actions.cockpitControls_POV2TrackpadPress,
                     SteamVR_Actions.cockpitControls_POV2TrackpadTouch,
-                    SteamVR_Actions.cockpitControls_POV2TrackpadPosition};
+                    SteamVR_Actions.cockpitControls_POV2TrackpadPosition,
+                    SteamVR_Actions.cockpitControls_POV1JoystickPosition,
+                    SteamVR_Actions.cockpitControls_POV2JoystickPosition};
             Valve.VR.SteamVR_Input.actionsOut = new Valve.VR.ISteamVR_Action_Out[] {
                     SteamVR_Actions.default_Haptic};
             Valve.VR.SteamVR_Input.actionsVibration = new Valve.VR.SteamVR_Action_Vibration[] {
@@ -545,6 +617,7 @@ namespace Valve.VR
                     SteamVR_Actions.menu_MenuNavigateRight,
                     SteamVR_Actions.menu_MenuNavigateTrackpadPress,
                     SteamVR_Actions.menu_MenuNavigateTrackpadTouch,
+                    SteamVR_Actions.menu_MenuNestedToggle,
                     SteamVR_Actions.uI_UIBack,
                     SteamVR_Actions.uI_UISelect,
                     SteamVR_Actions.uI_UINavigateUp,
@@ -569,10 +642,15 @@ namespace Valve.VR
             Valve.VR.SteamVR_Input.actionsSingle = new Valve.VR.SteamVR_Action_Single[0];
             Valve.VR.SteamVR_Input.actionsVector2 = new Valve.VR.SteamVR_Action_Vector2[] {
                     SteamVR_Actions.menu_MenuNavigateTrackpadPosition,
+                    SteamVR_Actions.menu_MenuNavigateJoystickPosition,
                     SteamVR_Actions.uI_UINavigateTrackpadPosition,
                     SteamVR_Actions.uI_UITabTrackpadPosition,
+                    SteamVR_Actions.uI_UINavigateJoystickPosition,
+                    SteamVR_Actions.uI_UITabJoystickPosition,
                     SteamVR_Actions.cockpitControls_POV1TrackpadPosition,
-                    SteamVR_Actions.cockpitControls_POV2TrackpadPosition};
+                    SteamVR_Actions.cockpitControls_POV2TrackpadPosition,
+                    SteamVR_Actions.cockpitControls_POV1JoystickPosition,
+                    SteamVR_Actions.cockpitControls_POV2JoystickPosition};
             Valve.VR.SteamVR_Input.actionsVector3 = new Valve.VR.SteamVR_Action_Vector3[0];
             Valve.VR.SteamVR_Input.actionsSkeleton = new Valve.VR.SteamVR_Action_Skeleton[0];
             Valve.VR.SteamVR_Input.actionsNonPoseNonSkeletonIn = new Valve.VR.ISteamVR_Action_In[] {
@@ -591,6 +669,8 @@ namespace Valve.VR
                     SteamVR_Actions.menu_MenuNavigateTrackpadPress,
                     SteamVR_Actions.menu_MenuNavigateTrackpadTouch,
                     SteamVR_Actions.menu_MenuNavigateTrackpadPosition,
+                    SteamVR_Actions.menu_MenuNestedToggle,
+                    SteamVR_Actions.menu_MenuNavigateJoystickPosition,
                     SteamVR_Actions.uI_UIBack,
                     SteamVR_Actions.uI_UISelect,
                     SteamVR_Actions.uI_UINavigateUp,
@@ -605,6 +685,8 @@ namespace Valve.VR
                     SteamVR_Actions.uI_UITabTrackpadPress,
                     SteamVR_Actions.uI_UITabTrackpadTouch,
                     SteamVR_Actions.uI_UITabTrackpadPosition,
+                    SteamVR_Actions.uI_UINavigateJoystickPosition,
+                    SteamVR_Actions.uI_UITabJoystickPosition,
                     SteamVR_Actions.cockpitControls_ButtonPrimary,
                     SteamVR_Actions.cockpitControls_ButtonSecondary,
                     SteamVR_Actions.cockpitControls_ButtonAlt,
@@ -615,7 +697,9 @@ namespace Valve.VR
                     SteamVR_Actions.cockpitControls_POV1TrackpadPosition,
                     SteamVR_Actions.cockpitControls_POV2TrackpadPress,
                     SteamVR_Actions.cockpitControls_POV2TrackpadTouch,
-                    SteamVR_Actions.cockpitControls_POV2TrackpadPosition};
+                    SteamVR_Actions.cockpitControls_POV2TrackpadPosition,
+                    SteamVR_Actions.cockpitControls_POV1JoystickPosition,
+                    SteamVR_Actions.cockpitControls_POV2JoystickPosition};
         }
         
         private static void PreInitActions()
@@ -637,6 +721,8 @@ namespace Valve.VR
             SteamVR_Actions.p_menu_MenuNavigateTrackpadPress = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/Menu/in/MenuNavigateTrackpadPress")));
             SteamVR_Actions.p_menu_MenuNavigateTrackpadTouch = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/Menu/in/MenuNavigateTrackpadTouch")));
             SteamVR_Actions.p_menu_MenuNavigateTrackpadPosition = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/Menu/in/MenuNavigateTrackpadPosition")));
+            SteamVR_Actions.p_menu_MenuNestedToggle = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/Menu/in/MenuNestedToggle")));
+            SteamVR_Actions.p_menu_MenuNavigateJoystickPosition = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/Menu/in/MenuNavigateJoystickPosition")));
             SteamVR_Actions.p_uI_UIBack = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/UI/in/UIBack")));
             SteamVR_Actions.p_uI_UISelect = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/UI/in/UISelect")));
             SteamVR_Actions.p_uI_UINavigateUp = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/UI/in/UINavigateUp")));
@@ -651,6 +737,8 @@ namespace Valve.VR
             SteamVR_Actions.p_uI_UITabTrackpadPress = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/UI/in/UITabTrackpadPress")));
             SteamVR_Actions.p_uI_UITabTrackpadTouch = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/UI/in/UITabTrackpadTouch")));
             SteamVR_Actions.p_uI_UITabTrackpadPosition = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/UI/in/UITabTrackpadPosition")));
+            SteamVR_Actions.p_uI_UINavigateJoystickPosition = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/UI/in/UINavigateJoystickPosition")));
+            SteamVR_Actions.p_uI_UITabJoystickPosition = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/UI/in/UITabJoystickPosition")));
             SteamVR_Actions.p_cockpitControls_ButtonPrimary = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/CockpitControls/in/ButtonPrimary")));
             SteamVR_Actions.p_cockpitControls_ButtonSecondary = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/CockpitControls/in/ButtonSecondary")));
             SteamVR_Actions.p_cockpitControls_ButtonAlt = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/CockpitControls/in/ButtonAlt")));
@@ -662,6 +750,8 @@ namespace Valve.VR
             SteamVR_Actions.p_cockpitControls_POV2TrackpadPress = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/CockpitControls/in/POV2TrackpadPress")));
             SteamVR_Actions.p_cockpitControls_POV2TrackpadTouch = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/CockpitControls/in/POV2TrackpadTouch")));
             SteamVR_Actions.p_cockpitControls_POV2TrackpadPosition = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/CockpitControls/in/POV2TrackpadPosition")));
+            SteamVR_Actions.p_cockpitControls_POV1JoystickPosition = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/CockpitControls/in/POV1JoystickPosition")));
+            SteamVR_Actions.p_cockpitControls_POV2JoystickPosition = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/CockpitControls/in/POV2JoystickPosition")));
         }
     }
 }

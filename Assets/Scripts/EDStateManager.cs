@@ -135,8 +135,8 @@ namespace EVRC
             {
                 if (_saveDataPath == null)
                 {
-                    var userDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                    _saveDataPath = Path.Combine(userDir, "Saved Games", "Frontier Developments", "Elite Dangerous");
+                    var savedGamesDir = WindowsUtilities.GetKnownFolderPath(WindowsUtilities.KnownFolderId.SavedGames, WindowsUtilities.KnownFolderFlag.DONT_VERIFY);
+                    _saveDataPath = Path.Combine(savedGamesDir, "Frontier Developments", "Elite Dangerous");
                 }
 
                 return _saveDataPath;
@@ -342,11 +342,14 @@ namespace EVRC
 
         private IEnumerator WatchStatusFile()
         {
+            var statusFile = StatusFilePath;
+            UnityEngine.Debug.LogFormat("Watching Elite Dangerous Status.json at {0}", statusFile);
+
             while (IsEliteDangerousRunning)
             {
                 try
                 {
-                    var text = File.ReadAllText(StatusFilePath);
+                    var text = File.ReadAllText(statusFile);
                     if (text.Length > 0)
                     {
                         var status = JsonUtility.FromJson<EDStatus>(text);

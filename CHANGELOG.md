@@ -6,7 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ## [Unreleased]
 
-- *No changes*
+- Update Saved Games folder detection to fix issues with non-default user folder locations
+- Add a button to the Desktop UI to open the UI to edit controller bindings for controllers that do not have bindings configured yet
+- Fixed an issue with one vJoy device not being relinquished (credits to @yschuurmans)
+- Fixed an issue with Alt button not working (credits to @yschuurmans)
+- Fixed the "safe" trackpad sensitivity fallback so it's not so weak that some trackpads can't even get a single interval in
+- Implemented joystick binding actions (only bound by default in Index bindings)
+- Tuned the Index controller's bindings:
+  - Tuned the trackpad sensitivity
+  - Added Menu Select to the A button
+  - Added a menu mode UINestedToggle button to thumbstick click
+  - Added thumbstick bindings for menu/ui/pov2
+- Fixed a mistake that resulted in the Primary/Secondary/Alt buttons in the Controls edit UI not working
 
 ## [0.6.0] - 2019-12-09
 
